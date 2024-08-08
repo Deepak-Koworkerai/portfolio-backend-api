@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify, render_template
+from flask_cors import CORS
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_google_genai import ChatGoogleGenerativeAI
@@ -29,6 +30,8 @@ load_dotenv()
 
 # Initialize the Flask app
 app = Flask(__name__)
+CORS(app)  # Enable CORS for all routes
+
 
 # Set the SSL context to avoid verification issues within the Flask app context
 ssl._create_default_https_context = ssl._create_unverified_context
@@ -85,30 +88,47 @@ def user_input(user_question):
 
     return context
 
-
-
-#Define the ask route to handle POST requests
-@app.route('/ask', methods=['POST'])
-def ask():
-    # Get user's question from the request
-    user_question = request.form['question']
-    logger.info(f"USER QUESTION: {user_question}")
-    
-    # Get response based on user's question
-    response = user_input(user_question)
-    out = llm_model(user_question, response)
-    logger.info(f"User Question: {user_question}, Response: {out}")
-
-    # Return the response as JSON
-    return jsonify({'response': prettify_text(out)})
-
-
 @app.route('/')
 def home():
-    return "Welcome tomy ai's backend, u r indeed a hacker!!"
+    return "Welcome to my ai's backend, well done u hacker!!"
+
+@app.route('/ask', methods=['POST'])
+def ask():
+    try:
+        data = request.get_json()
+        user_question = data.get('message', '')
+        logger.info(f"USER QUESTION: {user_question}")
+        
+        response = user_input(user_question)
+        out = llm_model(user_question, response)
+        logger.info(f"User Question: {user_question}, Response: {out}")
+
+        return jsonify({'response': prettify_text(out)})
+    except Exception as e:
+        logger.error(f"Error: {e}")
+        return jsonify({'error': 'An error occurred, please try again later.'}), 500
+
+
+# #Define the ask route to handle POST requests
+# @app.route('/ask', methods=['POST'])
+# def ask():
+#     # Get user's question from the request
+#     user_question = request.form['question']
+#     logger.info(f"USER QUESTION: {user_question}")
+    
+#     # Get response based on user's question
+#     response = user_input(user_question)
+#     out = llm_model(user_question, response)
+#     logger.info(f"User Question: {user_question}, Response: {out}")
+
+#     # Return the response as JSON
+#     return jsonify({'response': prettify_text(out)})
+
 
 
 # Run the Flask app
 if __name__ == '__main__':
     # Run the app in debug mode
     app.run(debug=True, threaded=True, port=5000, host='0.0.0.0')
+
+
