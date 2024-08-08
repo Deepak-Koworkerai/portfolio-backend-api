@@ -103,6 +103,10 @@ def ask():
     return jsonify({'response': prettify_text(out)})
 
 
+@app.route('/')
+def home():
+    return "Welcome tomy ai's backend, u r indeed a hacker!!"
+
 
 # Run the Flask app
 if __name__ == '__main__':
