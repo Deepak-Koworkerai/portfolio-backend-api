@@ -42,7 +42,7 @@ def prettify_text(text):
     return prettified    
 
 def get_google_api_key():
-    return os.getenv("AIzaSyDs9MPywl9zXz8_TgMOiuVIU9UcJ4lSoCc")
+    return os.getenv("AIzaSyCgZRH8EkFWur1LPK3BUfJgwxf3rmRczUw")
 
 # Import gevent and monkey-patch early to avoid MonkeyPatchWarning
 import gevent.monkey
