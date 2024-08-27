@@ -23,7 +23,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-genai.configure(api_key="AIzaSyDs9MPywl9zXz8_TgMOiuVIU9UcJ4lSoCc")
+genai.configure(api_key="AIzaSyD7tk9HKuwLK5t3_NOvvlUCLREYRgIIDPE")
 
 # Load environment variables from .env file
 load_dotenv()
@@ -42,7 +42,7 @@ def prettify_text(text):
     return prettified    
 
 def get_google_api_key():
-    return os.getenv("AIzaSyCgZRH8EkFWur1LPK3BUfJgwxf3rmRczUw")
+    return os.getenv("AIzaSyD7tk9HKuwLK5t3_NOvvlUCLREYRgIIDPE")
 
 # Import gevent and monkey-patch early to avoid MonkeyPatchWarning
 import gevent.monkey
@@ -77,7 +77,7 @@ warnings.filterwarnings("ignore", category=FutureWarning)
 
 def user_input(user_question):
     # Initialize Google Generative AI Embeddings
-    embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001", google_api_key='AIzaSyDs9MPywl9zXz8_TgMOiuVIU9UcJ4lSoCc')
+    embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001", google_api_key='AIzaSyBAfHsxOVghV_vFUwxwwQwV68Agpq4av80')
     # Load FAISS index
     new_db = FAISS.load_local("faiss_index", embeddings, allow_dangerous_deserialization=True)
     logger.info("-------------------------DATABASE LOADED!!!--------------------------")    
