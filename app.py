@@ -78,7 +78,8 @@ warnings.filterwarnings("ignore", category=FutureWarning)
 
 def user_input(user_question):
     # Initialize Google Generative AI Embeddings
-    embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001", google_api_key='AIzaSyBAfHsxOVghV_vFUwxwwQwV68Agpq4av80')
+    embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001", google_api_key='AIzaSyBB5JfTB1-VpvY5ME3feYyPcd_TRCdhCx4')
+
     # Load FAISS index
     new_db = FAISS.load_local("faiss_index", embeddings, allow_dangerous_deserialization=True)
     logger.info("-------------------------DATABASE LOADED!!!--------------------------")    
