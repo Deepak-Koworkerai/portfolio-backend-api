@@ -18,6 +18,10 @@ from IPython.display import display
 from IPython.display import Markdown
 import json
 
+#delete 
+from openai import AzureOpenAI
+
+
 # Set up logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -49,7 +53,7 @@ def get_google_api_key():
 import gevent.monkey
 gevent.monkey.patch_all()
 
-def llm_model(question, data):
+def llm_model_gemini(question, data):
     model = genai.GenerativeModel('gemini-1.5-pro')
     logger.info("-------------------------DATA PASSING TO THE MODEL!!!--------------------------")
     prompt = f'''You are an AI chatbot designed to help people by providing detailed and accurate answers based on context about your friend deepak. You are more than an assistant; you are a friend to Deepak. Ensure your responses are informative, contextually relevant, and align with people's tone and style of communication.
@@ -126,6 +130,55 @@ def ask():
 
 #     # Return the response as JSON
 #     return jsonify({'response': prettify_text(out)})
+
+
+def llm_model(question, data):
+    logger.info("-------------------------DATA PASSING TO THE MODEL!!!--------------------------")
+    
+    AZURE_OPENAI_API_KEY = 'ef29eaa3ecd04bc1b582e40759708c9e'
+    AZURE_OPENAI_ENDPOINT = 'https://langchain-poc.openai.azure.com/'
+    AZURE_MODEL = 'langchain-poc-gpt35-turbo-0125'
+
+    # Create the Azure OpenAI client
+    client = AzureOpenAI(
+        azure_endpoint=AZURE_OPENAI_ENDPOINT,
+        api_key=AZURE_OPENAI_API_KEY,
+        api_version="2024-02-01"
+    )
+
+    # Construct the prompt
+    prompt = f'''You are an AI chatbot designed to help people by providing detailed and accurate answers based on context about your friend Deepak. You are more than an assistant; you are a friend to Deepak. Ensure your responses are informative, contextually relevant, and align with people's tone and style of communication.
+                Converse like a human
+                Context:\n{data}\n
+                
+                Question:\n{question}\n
+                
+                Note:
+                - If the question is directly related to the provided data, provide a detailed and accurate answer.
+                - If the question pertains to a general topic or is conversational in nature, respond in a friendly, human-like manner. For example, for questions like "tell me something you know" or "is this the right time to talk," answer conversationally and encourage engagement.
+                - If the answer is not present in the provided context and the question seems personal, unknown, or too common, respond by acknowledging your limitation in a friendly way. For instance, say "Oh no! I am not really aware of it, I shall ask Deepak and let you know later!!" to avoid giving incorrect information.
+                - Always prioritize clarity, accuracy, and a friendly tone in your responses. Even if the answer is not relevant, try to respond in a helpful and engaging manner.
+                - Always answer in short and precisely!!!
+                
+                Answer:'''
+
+    # Call Azure OpenAI API for response
+    try:
+        response = client.chat.completions.create(
+            model=AZURE_MODEL,
+            messages=[
+                {"role": "system", "content": "You are a helpful Friend of deepak!."},
+                {"role": "user", "content": prompt}
+            ],
+            max_tokens=4000
+        )
+        answer = response.choices[0].message.content
+    except Exception as e:
+        logger.error(f"Error generating response from Azure OpenAI: {e}")
+        answer = "Sorry, I encountered an error while processing your request."
+
+    logger.info("-------------------------MODEL DATA DONE!!!--------------------------\n\n\n\n\n")            
+    return answer
 
 
 
