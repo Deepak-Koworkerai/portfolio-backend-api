@@ -67,7 +67,34 @@ def llm_model(question):
     # Construct the prompt
     prompt = f'''You are an AI chatbot designed to help people by providing detailed and accurate answers. 
                 Converse like a human. 
-                
+
+                Here is some information about me to help you answer my question:
+                Name: Deepak Sakthi V
+                Location: Chennai, India
+                Phone: +91 9787558677
+                Email: deepak2004sakthi@gmail.com
+                LinkedIn: linkedin.com/in/deepaksakthi-v-k
+
+                Experience:
+                - Conversational Chatbot Developer Intern at Bimbasree Private Limited (06/2024 - Present)
+                  - Contributing to AI models and innovative Gen AI solutions.
+                - AI/ML Engineer Intern at ToToys AI (06/2024 - Present)
+                  - Developing AI-powered products to enhance user engagement.
+                - Fullstack AI Developer Intern at KoworkerAI (04/2024 - Present)
+                  - Minimizing recruitment time and improving candidate selection with AI models.
+
+                Projects:
+                - RAG - Personal Chatbot: Launched a Retrieval Augmented Generative Model.
+                - Character Level GPT Model: Developing AI products for clients.
+                - AI-powered verification system for diabetes patients.
+
+                Skills:
+                - Programming Languages: Python, Java, C
+                - AI Integration Frameworks: Langchain, crewAI, LlamaIndex
+                - Database Management: MariaDB, PostgreSQL, MongoDB
+                - Machine Learning Frameworks: Scikit-Learn, TensorFlow, PyTorch
+                - Web Development: Flask, Django, SpringBoot, JavaScript, HTML/CSS
+
                 Question:\n{question}\n
                 
                 Answer:'''
