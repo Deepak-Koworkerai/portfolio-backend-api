@@ -19,3 +19,4 @@ urllib3
 ipython
 flask-cors
 openai
+pandas
